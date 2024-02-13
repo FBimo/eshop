@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+
 @Controller
 @RequestMapping("/product")
 public class ProductController {
@@ -25,8 +26,7 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public String createProductPost(@ModelAttribute Product product, Model model) {
-        product.setProductId(UUID.randomUUID().toString());
+    public String createProductPost(@ModelAttribute Product product) {
         service.create(product);
         return "redirect:list";
     }
@@ -39,21 +39,22 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{productId}")
-    public String deleteProduct (@PathVariable("productId") String productId) {
+    public String deleteProduct (@PathVariable("productId") int productId) {
         service.delete(productId);
         return "redirect:../list";
     }
 
     @GetMapping("/edit/{productId}")
-    public String editProductPage (@PathVariable("productId") String productId, Model model) {
+    public String editProductPage (@PathVariable("productId") int productId, Model model) {
         Product product = service.findById(productId);
         model.addAttribute("product", product);
+        model.addAttribute("productId", productId);
         return "editProduct";
     }
 
     @PostMapping("/edit/{productId}")
-    public String editProduct (@ModelAttribute Product product){
-        service.edit(product);
+    public String editProduct (@PathVariable("productId") int productId, @ModelAttribute Product product, Model model){
+        service.edit(productId, product);
         return "redirect:../list";
     }
 }
