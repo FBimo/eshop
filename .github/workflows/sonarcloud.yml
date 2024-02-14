@@ -24,6 +24,6 @@ jobs:
         with:
           # Additional arguments for the sonarcloud scanner
           args:
-            -Dsonar.projectKey=
-            -Dsonar.organization=
+            -Dsonar.projectKey=FBimo_eshop
+            -Dsonar.organization=fbimo
             -X
