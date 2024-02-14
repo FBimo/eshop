@@ -8,15 +8,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
 
+    private final ProductService service;
+
     @Autowired
-    private ProductService service;
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
 
     @GetMapping("/create")
     public String createProductPage(Model model) {
@@ -39,13 +42,13 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{productId}")
-    public String deleteProduct (@PathVariable("productId") int productId) {
+    public String deleteProduct(@PathVariable("productId") int productId) {
         service.delete(productId);
         return "redirect:../list";
     }
 
     @GetMapping("/edit/{productId}")
-    public String editProductPage (@PathVariable("productId") int productId, Model model) {
+    public String editProductPage(@PathVariable("productId") int productId, Model model) {
         Product product = service.findById(productId);
         model.addAttribute("product", product);
         model.addAttribute("productId", productId);
@@ -53,7 +56,7 @@ public class ProductController {
     }
 
     @PostMapping("/edit/{productId}")
-    public String editProduct (@PathVariable("productId") int productId, @ModelAttribute Product product, Model model){
+    public String editProduct(@PathVariable("productId") int productId, @ModelAttribute Product product, Model model) {
         service.edit(productId, product);
         return "redirect:../list";
     }
