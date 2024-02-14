@@ -27,7 +27,7 @@ class ProductControllerTest {
     @Test
     void testCreateProductPage() {
         String page = productController.createProductPage(model);
-        assertEquals(page, "createProduct");
+        assertEquals(page, "CreateProduct");
     }
 
     @Test
@@ -39,7 +39,7 @@ class ProductControllerTest {
     @Test
     void testProductListPage() {
         String page = productController.productListPage(model);
-        assertEquals("productlist", page);
+        assertEquals("ProductList", page);
     }
 
     @Test
@@ -52,7 +52,7 @@ class ProductControllerTest {
     void testEditProductPage() {
         when(productService.findById(0)).thenReturn(new Product());
         String page = productController.editProductPage(0, model);
-        assertEquals("editProduct", page);
+        assertEquals("EditProduct", page);
     }
 
     @Test
