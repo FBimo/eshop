@@ -103,3 +103,66 @@ _deployment_ yang apabila dilakukan _push_, _workflow_ akan mengarahkan untuk me
 otomatis pada _branch_ tertentu.
 
 </details>
+
+<details>
+<summary style="font-size:24px">Tutorial 3</summary>
+
+## SOLID Principles
+Berikut merupakan prinsip-prinsip SOLID yang saya terapkan pada _source code_,
+
+### 1. SRP
+_Single Responsibility Principle_ mengharuskan suatu kelas hanya boleh memiliki satu fungsi atau tujuan utama. Dengan 
+adanya prinsip ini, kode diharapkan dapat terlihat sederhana dan tentu saja mudah untuk melakukan _maintenance_. Hal ini
+saya terapkan pada saat memisah antara kelas `CarController` dengan `ProductController`. Pemisahan dilakukan untuk
+menjaga modularitas kode dan mempermudah apabila nanti adanya modifikasi kode.
+
+### 2. OCP
+_Open-Close Principle_ merupakan salah satu prinsip yang mengharuskan unsur kode seperti kelas, modul, fungsi, dan
+lainnya mempunyai sifat tertutup untuk modifikasi namun tetap terbuka untuk pengembangan. Dengan adanya prinsip ini,
+_programmer_ dapat langsung melakukan ekstensi untuk menambah fitur atau kebutuhan suatu kelas tanpa harus memodifikasi 
+kode asalnya sehingga kode dapat dikatakan _reusable_. Penerapan OCP dalam tutorial ini adalah ekstensi dari `Item`. 
+Apabila diperhatikan, `Item` memiliki kerangka utama bagi kelas `Car` dan `Product` sehingga apabila _programmer_
+membutuhkan kerangka yang ada di `Item`, mereka dapat langsung melakukan _extend_ di suatu kelas baru. Perhatikan juga
+kelas `Car` yang sudah melakukan _extend_ dan menambahkan juga kebutuhan yang hanya ada pada kelas `Car` saja.
+
+### 3. LSP
+_Liskov Substitution Principle_ merupakan prinsip yang mengharuskan suatu kelas apabila memiliki sub-kelas, sub-kelas
+tersebut harus mempunya _behavior_ yang sama dengan _parent class_-nya. Dalam tutorial ini, saya menerapkan LSP dalam 
+`CarServiceImpl` yang mengimplementasikan `CarService`. `CarService` memang ditujukan sebagai kumpulan fitur yang
+dimiliki oleh suatu kelas `Car`. Dengan adanya `CarService` yang sebenarnya merupakan ekstensi dari `ItemService`, fitur
+kelas `Car` tidak akan bersinggungan dengan fitur yang berbeda dari kelas `Product` sehingga tidak akan melanggar LSP.
+
+### 4. ISP
+_Interface Segregation Principle_ sebenarnya memiliki kemiripan dengan SRP dan merupakan salah satu solusi agar LSP
+terjaga, yaitu dengan memperbanyak _interface_ dengan harapan _interface_ tersebut dapat mewakilkan sautu fitur pada
+suatu kelas dengan rinci. Hal ini sudah diterapkan pada _source code_ bagian pemisahan antara `CarService` dengan 
+`ProductService`. Untuk saat ini, `ItemService` sebenarnya masih bisa sebagai perwakilan fitur untuk kedua kelas `Car`
+dan `Product` namun tidak menutup kemungkinan bahwa di antara kedua kelas tersebut akan memiliki spesifikasi tambahan
+ke depannya. Hal ini dapat mencegah adanya ketidaksesuaian fitur dan dapat mencegah adanya pelanggaran baik LSP maupun
+SRP. 
+
+### 5. DIP
+_Dependency Inversion Principle_ merupakan prinsip yang menitikberatkan bahwa _high-level module_ dan _low-level module_
+seharusnya bergantung kepada suatu abstrak modul jika memiliki keterkaitan tertentu. Hal ini saya terapkan dalam membuat
+`CarController` yang tidak langsung bergantung pada `CarServiceImpl` melainkan dengan `CarService` yang 
+diimpelementasikan oleh `CarServiceImpl` itu sendiri. Hal ini bertujuan meningkatkan fleksibilitas dari `CarController`
+jika adanya penambahan fitur pada `CarService`.
+
+## Advantage of Applying SOLID Principle
+Manfaat yang cukup terasa pada saat mengimplementasikan prinsip SOLID adalah terstrukturnya kode sehingga _programmer_
+tentu akan cukup mudah dalam memahami kode tersebut. Selain itu, dengan adanya pemisahan terstruktur, ada beberapa kode
+dapat digunakan kembali sehingga akan meningkatkan produktivitas dari _programmer_. Hal ini dapat dilihat pada baik
+pada _package_ `model` maupun `service` yang menerapkan modularitas dan _reusable_ dari suatu kumpulan kode. Tidak hanya
+itu, dengan menerapakan _interface_ yang spesifik, hal itu akan meningkatkan fleksibilitas dari suatu kelas. Contohnya
+pada implementasi baik `CarService` maupun `ProductService` yang tidak menutup kemungkinan bahwa kedua kelas tersebut
+akan memiliki _behavior_ yang berbeda. 
+
+## Disadvantage without SOLID Principle
+Sebelum saya melakukan pemisahan `CarController` dengan `ProductController`, kode yang ada terlihat sangat panjang dan
+cenderung membingungkan. Selain itu, saya juga sempat hanya melakukan penyalinan kode yang sebenarnya dapat digunakan
+teknik seperti OCP pada _package_ model yang tentu saja akan menghemat lebih banyak waktu. Tidak hanya itu, apabila
+hanya diterapkan satu _interface_ saja pada saat membagi antara `ProductServiceImpl` dan `CarServiceImpl`, akan ada
+kemungkinan bahwa ke depannya masing-masing kelas tersebut memiliki keutuhan yang berbeda sehingga harus adanya
+penyesuaian kembali yang kemungkinan cukup menguras tenaga, waktu, dan pikiran.
+
+</details>

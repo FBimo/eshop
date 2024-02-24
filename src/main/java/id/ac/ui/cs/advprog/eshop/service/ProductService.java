@@ -1,12 +1,8 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
-public interface ProductService {
-    public Product create(Product product);
-    public List<Product> findAll();
-    public void delete(int productId);
-    public Product findById(int productId);
-    public Product edit (int productId, Product product);
+
+public interface ProductService extends ItemService<Product> {
 }
