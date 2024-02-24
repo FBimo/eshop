@@ -38,13 +38,13 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{productId}")
-    public String deleteProduct(@PathVariable("productId") int productId) {
+    public String deleteProduct(@PathVariable("productId") String productId) {
         service.delete(productId);
         return "redirect:../list";
     }
 
     @GetMapping("/edit/{productId}")
-    public String editProductPage(@PathVariable("productId") int productId, Model model) {
+    public String editProductPage(@PathVariable("productId") String productId, Model model) {
         Product product = service.findById(productId);
         model.addAttribute("product", product);
         model.addAttribute("productId", productId);
@@ -52,7 +52,7 @@ public class ProductController {
     }
 
     @PostMapping("/edit/{productId}")
-    public String editProduct(@PathVariable("productId") int productId, @ModelAttribute Product product, Model model) {
+    public String editProduct(@PathVariable("productId") String productId, @ModelAttribute Product product, Model model) {
         service.edit(productId, product);
         return "redirect:../list";
     }
