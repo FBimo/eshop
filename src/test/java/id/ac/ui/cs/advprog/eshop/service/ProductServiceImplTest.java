@@ -29,14 +29,15 @@ public class ProductServiceImplTest {
 
     @Test
     public void testDeleteProduct() {
-        service.create(new Product());
+        Product newProduct = service.create(new Product());
+        newProduct.setItemId("0");
 
         List<Product> beforeDeleteProducts = service.findAll();
         System.out.println(beforeDeleteProducts.size());
 
         assertEquals(beforeDeleteProducts.size(), 1);
 
-        service.delete(0);
+        service.delete("0");
         List<Product> afterDeleteProducts = service.findAll();
         assertEquals(afterDeleteProducts.size(), 0);
     }
@@ -44,23 +45,23 @@ public class ProductServiceImplTest {
     @Test
     public void testEditProduct() {
         Product oldProduct = new Product();
-        oldProduct.setProductId("eb558e9f-1039-4600-8860-71af6af63bde");
-        oldProduct.setProductName("Sampo Cap Bambang");
-        oldProduct.setProductQuantity(100);
+        oldProduct.setItemId("eb558e9f-1039-4600-8860-71af6af63bde");
+        oldProduct.setItemName("Sampo Cap Bambang");
+        oldProduct.setItemQuantity(100);
         service.create(oldProduct);
 
         Product newProduct = new Product();
-        newProduct.setProductName("New Sampo Cap Bambang");
-        newProduct.setProductQuantity(50);
+        newProduct.setItemName("New Sampo Cap Bambang");
+        newProduct.setItemQuantity(50);
 
-        service.edit(0, newProduct);
+        service.edit("eb558e9f-1039-4600-8860-71af6af63bde", newProduct);
 
-        Product editedProduct = service.findById(0);
+        Product editedProduct = service.findById("eb558e9f-1039-4600-8860-71af6af63bde");
 
-        assertEquals(editedProduct.getProductQuantity(), newProduct.getProductQuantity());
-        assertEquals(editedProduct.getProductName(), newProduct.getProductName());
+        assertEquals(editedProduct.getItemQuantity(), newProduct.getItemQuantity());
+        assertEquals(editedProduct.getItemName(), newProduct.getItemName());
 
-        service.delete(0);
+        service.delete("eb558e9f-1039-4600-8860-71af6af63bde");
     }
 
     @Test
@@ -72,18 +73,18 @@ public class ProductServiceImplTest {
         List<Product> products = service.findAll();
         assertEquals(3, products.size());
 
-        service.delete(0);
-        service.delete(0);
-        service.delete(0);
+//        service.delete(0);
+//        service.delete(0);
+//        service.delete(0);
     }
 
     @Test
     void testCreate() {
         // Creating a mock product
         Product mockProduct = new Product();
-        mockProduct.setProductId("1");
-        mockProduct.setProductName("Test Product");
-        mockProduct.setProductQuantity(10);
+        mockProduct.setItemId("1");
+        mockProduct.setItemName("Test Product");
+        mockProduct.setItemQuantity(10);
 
         // Mocking the behavior of the repository
         when(productRepository.create(mockProduct)).thenReturn(mockProduct);
@@ -99,29 +100,29 @@ public class ProductServiceImplTest {
     void testDelete() {
         // Creating a mock product
         Product mockProduct = new Product();
-        mockProduct.setProductId("1");
+        mockProduct.setItemId("1");
 
         // Mocking repository behavior
-        when(productRepository.findById(1)).thenReturn(mockProduct);
+        when(productRepository.findById("1")).thenReturn(mockProduct);
 
         // Invoking the service method
-        productServiceImpl.delete(1);
+        productServiceImpl.delete("1");
 
         // Verifying interactions
-        verify(productRepository).delete(1);
+        verify(productRepository).delete("1");
     }
 
     @Test
     void testFindById() {
         // Creating a mock product
         Product mockProduct = new Product();
-        mockProduct.setProductId("1");
+        mockProduct.setItemId("1");
 
         // Mocking repository behavior
-        when(productRepository.findById(1)).thenReturn(mockProduct);
+        when(productRepository.findById("1")).thenReturn(mockProduct);
 
         // Invoking the service method
-        Product result = productServiceImpl.findById(1);
+        Product result = productServiceImpl.findById("1");
 
         // Verifying the result
         assertEquals(mockProduct, result);
@@ -129,20 +130,30 @@ public class ProductServiceImplTest {
 
     @Test
     void testEdit() {
-        // Creating a mock product
-        Product mockProduct = new Product();
-        mockProduct.setProductId("1");
+        // Create an instance of the test repository
+        ProductRepository testRepository = new ProductRepository();
 
-        // Mocking repository behavior
-        when(productRepository.edit(1, mockProduct)).thenReturn(mockProduct);
+        // Create an instance of your service and inject the test repository
+        ProductService productService = new ProductServiceImpl(testRepository);
 
-        // Invoking the service method
-        Product result = productServiceImpl.edit(1, mockProduct);
+        // Create a product and save it using the service
+        Product originalProduct = new Product();
+        originalProduct.setItemId("1");
+        originalProduct.setItemName("Original Product");
+        productService.create(originalProduct);
 
-        // Verifying interactions
-        verify(productRepository).edit(1, mockProduct);
+        // Create a modified product
+        Product modifiedProduct = new Product();
+        modifiedProduct.setItemId("1");
+        modifiedProduct.setItemName("Modified Product");
 
-        // Verifying the result
-        assertEquals(mockProduct, result);
+        // Edit the product using the service
+        productService.edit("1", modifiedProduct);
+
+        // Retrieve the edited product from the repository
+        Product editedProduct = testRepository.findById("1");
+
+        // Assert that the product was successfully edited
+        assertEquals("Modified Product", editedProduct.getItemName());
     }
 }
