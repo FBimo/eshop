@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class PaymentRepositoryTest {
     @Autowired
-    IPaymentRepository paymentRepository;
+    PaymentRepository paymentRepository;
     List<Payment> payments;
     
     @BeforeEach
