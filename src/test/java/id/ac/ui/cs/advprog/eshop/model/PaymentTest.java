@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PaymentTest {
     private List<Product> products;
@@ -71,7 +70,6 @@ public class PaymentTest {
     @Test
     void testVoucherCodeIsNotValid(){
         String[] voucherCodeList= {"","A", "ESHOPEFGHIJKLMN541", "EFGHIJKLMN54234B", "ESHOP1284ADC567C"};
-        // Empty, <16, M>16, No 8 Numericals character
         Map<String,String> paymentData = new HashMap<>();
         paymentData.put("voucherCode", voucherCodeList[0]);
         Payment payment= new Payment("13652556-012a-4c07-b546-54eb1396d79d", PaymentMethod.PAYMENT_BY_VOUCHER.getValue(), paymentData);
@@ -129,9 +127,9 @@ public class PaymentTest {
         assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
 
         Map<String,String> paymentData2 = new HashMap<>();
-        paymentData2.put("address", "");
-        paymentData2.put("deliveryFee", "");
-        Payment payment2 = new Payment("13652556-012a-4c07-b546-54eb1396d79b", PaymentMethod.COD.getValue(), paymentData2);
+        paymentData2.put("bankName", "");
+        paymentData2.put("referenceCode", "");
+        Payment payment2 = new Payment("13652556-012a-4c07-b546-54eb1396d79b", PaymentMethod.PAYMENT_BY_BANK_TRANSFER.getValue(), paymentData2);
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", payment2.getId());
         assertEquals(PaymentMethod.PAYMENT_BY_BANK_TRANSFER.getValue(), payment2.getMethod());
         assertEquals(PaymentStatus.REJECTED.getValue(), payment2.getStatus());
@@ -140,8 +138,8 @@ public class PaymentTest {
     @Test
     void testBankTransferPaymentValid(){
         Map<String,String> paymentData = new HashMap<>();
-        paymentData.put("address", "Depok, Jawa Barat, Indonesia");
-        paymentData.put("deliveryFee", "20000");
+        paymentData.put("bankName", "Sejahtera");
+        paymentData.put("referenceCode", "21345");
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b", PaymentMethod.PAYMENT_BY_BANK_TRANSFER.getValue(), paymentData);
 
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", payment.getId());
