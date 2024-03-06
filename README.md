@@ -166,3 +166,29 @@ kemungkinan bahwa ke depannya masing-masing kelas tersebut memiliki keutuhan yan
 penyesuaian kembali yang kemungkinan cukup menguras tenaga, waktu, dan pikiran.
 
 </details>
+
+<details>
+<summary style="font-size:24px">Tutorial 4</summary>
+
+## Usefulness of TDD
+TDD Flow sangat bermanfaat untuk continouous development dalam pengembangan software dimana software akan terus berkembang mengikuti permintaan client. TDD Flow memastikan bahwa software tetap memenuhi kualitas meskipun requirement terus berubah.
+
+## F.I.R.S.T Principle
+### Fast
+Berbagai tes yang sudah dibuat cukup cepat sehingga dapat berjalan tanpa mengganggu _workflow_.
+
+### Independent
+Tes-tes yang dibuat sudah independen sehingga tidak bergantung dengan yang lain. 
+
+### Repeatable
+Tes yang dibuat hasilnya konsisten di setiap pengujian dengan catatan tidak adanya modifikasi dalam skala besar. 
+Tes sudah _repeatable_ karena sudah _setup mock_ yang sama sehingga hasil tes dapat konsisten.
+
+### Self Validating
+Suatu tes dapat dikatakan _self validating_ apabila jelas dalam menguji suatu fitur. Tes yang dibuat sudah cukup 
+_self salidating_ dengan penggunaan method assertEquals, assertNull, assertThrow, dan lainnya.
+
+### Timely
+Suatu tes sebaiknya menutupi baik _happy_ maupun _unhappy_ _paths_. Tes yang dibuat sudah menutupi sebagian besar 
+_happy_ dan _unhappy paths_.
+</details>
